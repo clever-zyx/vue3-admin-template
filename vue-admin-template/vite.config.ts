@@ -33,10 +33,31 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),
     Components({
-      resolvers: [ElementPlusResolver({ importStyle: 'sass' })],
+      resolvers: [
+        ElementPlusResolver({ importStyle: 'sass' }),
+        // 自动注册图标组件
+        (componentName) => {
+          if (componentName.startsWith('Icon')) {
+            return { name: componentName, from: '@element-plus/icons-vue' }
+          }
+        }
+      ],
     }),
 
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: (content: string, filePath: string) => {
+          // 避免在 variable.scss 文件中注入自己，防止循环引用
+          if (filePath.includes('variable.scss')) {
+            return content
+          }
+          return `@use "@/style/variable.scss" as *;\n${content}`
+        },
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

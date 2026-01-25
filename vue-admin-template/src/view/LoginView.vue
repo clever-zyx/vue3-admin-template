@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <el-form class="login-form" :model="useForm">
+    <el-form class="login-form" :model="useForm" ref="loginFormRef" :rules="rules">
       <h1>管理系统模板</h1>
       <el-form-item prop="username">
         <el-input placeholder="请输入用户名" :prefix-icon="User" v-model="useForm.username"></el-input>
@@ -21,10 +21,12 @@
 
 <script setup lang="ts">
 import { Lock, User } from '@element-plus/icons-vue'
-import {ref, reactive } from 'vue'
-import {useRouter} from 'vue-router'
+import { ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import { useLogin } from '@/api/useLogin'
-import {  ElMessage, ElNotification } from 'element-plus'
+import { ElMessage, ElNotification } from 'element-plus'
+
+const loginFormRef = ref()
 const loading = ref(false)
 const router = useRouter()
 const useForm = reactive({
@@ -42,22 +44,33 @@ const useForm = reactive({
 //     console.log(e)
 //   }
 // }
+const rules = {
+  username: [
+    { required: true, message: '请输入用户名', trigger: 'blur' },
+    { min: 3, message: '用户名长度不能小于3个字符', trigger: 'blur' }
+  ],
+  password: [
+    { required: true, message: '请输入密码', trigger: 'blur' },
+    { min: 6, message: '密码长度不能小于6个字符', trigger: 'blur' }
+  ]
+}
 const goLogin = async () => {
- 
-    loading.value = true
-  try {
-     
-    const res = await useLogin(useForm)
-  console.log(res);
-      localStorage.setItem('token', res.data.token)
+ await loginFormRef.value.validate()
 
-      ElNotification({message: '登录成功', type: 'success'})
+  loading.value = true
+  try {
+
+    const res = await useLogin(useForm)
+    // console.log(res);
+    localStorage.setItem('token', res.data.token)
+
+    ElNotification({ message: '登录成功', type: 'success' })
     // ElMessage.success('登录成功')
-      router.push('/')
-loading.value =false
-  
-  } catch (error){
-      //  loading.value =false
+    router.push('/')
+    loading.value = false
+
+  } catch (error) {
+     loading.value =false
     // 检查是否有 response 数据
     if (error.response?.data) {
       const { message } = error.response.data
