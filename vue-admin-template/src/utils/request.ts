@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ElMessage } from 'element-plus';
 import { useUserStore } from "@/stores/user/useUser";
+import router from '@/router';
 const server = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API, // 使用代理路径，不需要完整URL
   timeout: 5000,
@@ -47,11 +48,18 @@ server.interceptors.response.use(function (response) {
     // 只处理需要全局处理的状态码
     switch (status) {
       case 401:
-        // 登录状态失效，跳转到登录页
-        ElMessage.error('登录状态失效');
-        localStorage.removeItem('userToken');
-        localStorage.removeItem('userInfo');
-        // window.location.href = '/Login';
+        // 登录状态失效，清除所有用户信息并跳转到登录页
+        ElMessage.error('登录状态失效，请重新登录');
+        const userStore = useUserStore()
+        userStore.clearToken()
+        userStore.clearUserInfo()
+        
+        // 记住当前页面，登录后跳回
+        const currentPath = window.location.pathname + window.location.search
+        router.push({
+          path: '/login',
+          query: { redirect: currentPath }
+        });
         break;
       case 500:
         ElMessage.error('服务器内部错误，请稍后重试');

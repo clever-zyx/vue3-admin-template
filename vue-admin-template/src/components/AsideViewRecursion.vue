@@ -1,5 +1,6 @@
 <template>
-  <!-- 没有子菜单，渲染菜单项 -->
+
+    <!-- 没有子菜单，渲染菜单项 -->
   <el-menu-item
     v-if="!menuList.children || menuList.children.length === 0"
     :index="menuList.path || '/'"
@@ -25,6 +26,7 @@
       :menu-list="child"
     />
   </el-sub-menu>
+
 </template>                   
 
 <script setup lang="ts">
@@ -54,4 +56,6 @@ defineProps<{
 }>();
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+
+</style>

@@ -1,5 +1,6 @@
 
-import { HomeFilled, Histogram,Tools } from '@element-plus/icons-vue'
+import { HomeFilled, Histogram, Tools } from '@element-plus/icons-vue'
+
 
 export const routes = [
   {
@@ -46,6 +47,38 @@ export const routes = [
               keepAlive: true,
             },
             component: () => import('@/view/system/UserManagement.vue'),
+          },
+        ]
+      },
+      {
+        path: 'CommodityManagement',
+        name: 'CommodityManagement',
+        meta: {
+          title: '商品管理',
+          icon: Histogram,
+          keepAlive: true,
+        },
+        redirect: '/CommodityManagement/inventory',
+        children: [
+          {
+            path:'/CommodityManagement/inventory',
+            name: 'inventory',
+            meta: {
+              title: '库存管理',
+              icon: Histogram,
+              keepAlive: true,
+            },
+            component: () => import('@/view/CommodityManagement/inventory.vue'),
+          },
+          {
+            path:'/CommodityManagement/sales',
+            name: 'sales',
+            meta: {
+              title: '销售管理',
+              icon: Histogram,
+              keepAlive: true,
+            },
+            component: () => import('@/view/CommodityManagement/purchase.vue'),
           },
         ]
       }
