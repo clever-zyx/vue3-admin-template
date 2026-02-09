@@ -76,7 +76,7 @@ import { menuList } from "@/router/routes";
 import { ref, computed, nextTick } from "vue";
 import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/user/useUser";
-import { useLogout } from "@/api/useLogin";
+import { useLogout } from "@/api/reqUseLogin";
 import {
   Expand,
   Fold,
@@ -96,7 +96,7 @@ const route = useRoute();
 const stateRefresh = ref(true)
 
 const userInfo = useUserStore().userInfo
-console.log(userInfo);
+
 // 计算面包屑列表
 const breadcrumbList = computed(() => {
   const matched = route.matched.filter((item) => item.meta?.title);
@@ -138,7 +138,7 @@ const LogOut = async () => {
     await useLogout()
     await useUserStore().lougout()
   } catch (error) {
-    ElMessage.error(error.message || '退出登录失败')
+    ElMessage.error((error as Error).message || '退出登录失败')
   }
 }
 

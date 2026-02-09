@@ -2,6 +2,7 @@
 import { HomeFilled, Histogram, Tools } from '@element-plus/icons-vue'
 
 
+
 export const routes = [
   {
     path: '/',
@@ -47,6 +48,16 @@ export const routes = [
               keepAlive: true,
             },
             component: () => import('@/view/system/UserManagement.vue'),
+          }, 
+             {
+            path: '/system/StudentManagement',
+            name: 'StudentManagement',
+            meta: {
+              title: '学生管理',
+              icon: Histogram,
+              keepAlive: true,            
+            },
+            component:()=>import("@/view/system/StudentManagaement.vue")
           },
         ]
       },

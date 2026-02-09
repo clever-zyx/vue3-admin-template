@@ -73,8 +73,22 @@ server.interceptors.response.use(function (response) {
       // 400, 409, 422 等业务相关错误让组件自己处理
     }
   } else if (error.request) {
-    // 网络错误
-    ElMessage.error('网络连接失败，请检查网络设置');
+    // 网络错误（包括后台服务未启动）
+    ElMessage.error('无法连接到服务器，请检查网络或稍后重试');
+    
+    // 如果有token，说明用户之前是登录状态，现在无法连接服务器
+    // 可以选择跳转到登录页（因为无法验证token有效性）
+    const userStore = useUserStore()
+    if (userStore.token) {
+      userStore.clearToken()
+      userStore.clearUserInfo()
+      
+      const currentPath = window.location.pathname + window.location.search
+      router.push({
+        path: '/login',
+        query: { redirect: currentPath }
+      });
+    }
   }
 
   return Promise.reject(error);
