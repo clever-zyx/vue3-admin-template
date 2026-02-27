@@ -17,9 +17,12 @@ export interface Pagination {
 // 带分页的响应结构（data 和 pagination 平级）
 export interface PaginatedResponse<T> {
   code: number;
-  success: boolean;
-  message: string;
   data: T[];
+  message: string;
   pagination: Pagination;
+  success: boolean;
+
+
+
 }
 

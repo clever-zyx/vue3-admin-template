@@ -20,5 +20,6 @@ export interface ClassListRequest {
   isActive?: string;
 }
 // 获取班级列表
-export const getClassList = (params: ClassListRequest) => 
-  server.get('/classes', { params }) as unknown as Promise<PaginatedResponse<ClassListItem>>
+export async function getClassList(params: ClassListRequest) {
+  return server.get<PaginatedResponse<ClassListItem>>('/classes', { params });
+}

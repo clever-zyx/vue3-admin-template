@@ -52,19 +52,51 @@ export interface AddStudentRequest {
   grade: string;      // 年级
   enrollmentDate?: string;  // 入学日期
 }
+//学生信息详情类型
+export interface StudentInfo {
+  id: string;
+  studentId: string;
+  name: string;
+  gender: '男' | '女';
+  birthDate: string;
+  phone: string;
+  email: string;
+  idcard?: string;
+  address?: string;
+  emergencyContact?: string;
+  emergencyPhone?: string;
+  classId: string;
+  majorId: string;
+  grade: string;
+  enrollmentDate?: string;
+  status?: 'active' | 'suspended' | 'graduated' | 'dropped';
+  avatar?: string;
+  gpa?: number;
+  totalCredits?: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
 // 获取学生列表
-export const getStudentList = (params: StudentListRequest) => 
-  server.get('/students', { params }) as unknown as Promise<PaginatedResponse<StudentListItem>>;
-//添加学生
-export const addStudent = (data: AddStudentRequest) => 
-  server.post('/students', data) as unknown as Promise<ApiResponse<StudentListItem>>;
+export async function getStudentList(params: StudentListRequest) {
+  return server.get<PaginatedResponse<StudentListItem>>('/students', { params });
+}
+
+// 添加学生
+export async function addStudent(data: AddStudentRequest) {
+  return server.post<ApiResponse<StudentListItem>>('/students', data);
+}
 
 // 更新学生信息
-export const updateStudent = (id: string, data: AddStudentRequest) => 
-  server.put(`/students/${id}`, data) as unknown as Promise<ApiResponse<StudentListItem>>;
-//获取学生信息
-export const getStudentInfo = (id: string) => 
-  server.get(`/students/${id}`) as unknown as Promise<ApiResponse<StudentListItem>>;
+export async function updateStudent(id: string, data: AddStudentRequest) {
+  return server.put<ApiResponse<StudentListItem>>(`/students/${id}`, data);
+}
+
+// 获取学生信息
+export async function getStudentInfo(id: string) {
+  return server.get<ApiResponse<StudentInfo>>(`/students/${id}`);
+}
+
 // 删除学生
-export const deleteStudent = (id: string) => 
-  server.delete(`/students/${id}`) as unknown as Promise<ApiResponse<StudentListItem>>;
+export async function deleteStudent(id: string) {
+  return server.delete<ApiResponse<StudentListItem>>(`/students/${id}`);
+}

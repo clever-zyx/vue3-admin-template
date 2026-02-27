@@ -53,7 +53,6 @@ const goLogin = async () => {
 
   loading.value = true
   try {
-
     const res = await useLogin(useForm)
     // console.log(res);
     localStorage.setItem('token', res.data.token)
@@ -61,11 +60,11 @@ const goLogin = async () => {
     useUserStore().setToken(res.data.token)
     useUserStore().setUserInfo(res.data.user)
     ElNotification({ message: '登录成功', type: 'success' })
-    
+
     // 登录成功后，跳转到用户原本想访问的页面
     const redirect = route.query.redirect as string
     router.push(redirect || '/')
-    loading.value = false
+      loading.value = false
 
   } catch (error: any) {
     loading.value = false

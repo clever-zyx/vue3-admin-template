@@ -1,22 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import router from '@/router'
-
-interface UserInfo {
-  id: string
-  username: string
-  email: string
-  nickname: string
-  avatar: string
-  phone: string
-  role: string
-  isActive: boolean
-  lastLoginTime: string
-  createdAt: string
-  updatedAt: string
-  roleDisplayName: string
-  permissions: string[]
-}
+import type { UserInfo } from '@/api/reqUseLogin'
 
 export const useUserStore = defineStore('useUserStore', () => {
   const token = ref(localStorage.getItem('token') || '')

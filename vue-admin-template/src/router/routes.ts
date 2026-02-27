@@ -3,6 +3,7 @@ import { HomeFilled, Histogram, Tools } from '@element-plus/icons-vue'
 
 
 
+
 export const routes = [
   {
     path: '/',
@@ -27,37 +28,58 @@ export const routes = [
           icon: Tools,
           keepAlive: true,
         },
-        redirect: '/system/RoleManagement',
+        redirect: '/system/UserManagement',
         children: [
           {
-            path: '/system/RoleManagement',
-            name: 'RoleManagement',
+            path: '/system/Management',
+            name: 'Management',
             meta: {
               title: '权限管理',
               icon: Histogram,
               keepAlive: true,
             },
-            component: () => import('@/view/system/RoleManagement.vue'),
+            redirect: '/system/UserManagement',
+            children: [
+              {
+                path: '/system/UserManagement',
+                name: 'UserManagement',
+                meta: {
+                  title: '用户管理',
+                  icon: Histogram,
+                  keepAlive: true,
+                },
+                component: () => import('@/view/system/UserManagement.vue'),
+              },
+              {
+                path: '/system/RoleManagement',
+                name: 'RoleManagement',
+                meta: {
+                  title: '角色管理',
+                  icon: Histogram,
+                  keepAlive: true,
+                },
+                component: () => import('@/view/system/RoleManagement.vue'),
+              }, {
+                path: '/system/MenuManagement',
+                name: 'MenuManagement',
+                meta: {
+                  title: '菜单管理',
+                  icon: Histogram,
+                  keepAlive: true,
+                },
+                component: () => import('@/view/system/MenuManagement.vue'),
+              },
+            ]
           },
           {
-            path: '/system/UserManagement',
-            name: 'UserManagement',
-            meta: {
-              title: '用户管理',
-              icon: Histogram,
-              keepAlive: true,
-            },
-            component: () => import('@/view/system/UserManagement.vue'),
-          }, 
-             {
             path: '/system/StudentManagement',
             name: 'StudentManagement',
             meta: {
               title: '学生管理',
               icon: Histogram,
-              keepAlive: true,            
+              keepAlive: true,
             },
-            component:()=>import("@/view/system/StudentManagaement.vue")
+            component: () => import("@/view/system/StudentManagaement.vue")
           },
         ]
       },
@@ -72,7 +94,7 @@ export const routes = [
         redirect: '/CommodityManagement/inventory',
         children: [
           {
-            path:'/CommodityManagement/inventory',
+            path: '/CommodityManagement/inventory',
             name: 'inventory',
             meta: {
               title: '库存管理',
@@ -82,7 +104,7 @@ export const routes = [
             component: () => import('@/view/CommodityManagement/inventory.vue'),
           },
           {
-            path:'/CommodityManagement/sales',
+            path: '/CommodityManagement/sales',
             name: 'sales',
             meta: {
               title: '销售管理',

@@ -130,12 +130,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, reactive, watch } from "vue";
+import { ref, onMounted, reactive, watch,nextTick } from "vue";
 import { getStudentList, addStudent, type StudentListItem, type AddStudentRequest } from "@/api/reqStudentManagement";
 import { getMajorsList, type MajorsListItem } from "@/api/reqProfessionalManagement";
 import { getClassList, type ClassListItem } from "@/api/reqClassManagement";
-import { updateStudent, getStudentInfo, deleteStudent } from "@/api/reqStudentManagement";
-import { ElMessage, type FormRules } from "element-plus";
+import { updateStudent, getStudentInfo, deleteStudent ,type StudentInfo} from "@/api/reqStudentManagement";
+import { ElMessage, type FormRules , ElMessageBox} from "element-plus";
 import { Plus } from "@element-plus/icons-vue";
 
 const currentPage = ref(1);
@@ -176,7 +176,7 @@ const form = reactive<AddStudentRequest>({
 })
 const detailsVisible = ref(false);
 //学生详情
-const studentInfo = ref<StudentListItem>({});
+const studentInfo = ref({} as StudentInfo);
 
 // 表单验证规则
 const rule: FormRules<AddStudentRequest> = {
@@ -302,6 +302,9 @@ const clearForm = () => {
     majorId: '',
     grade: '',
   })
+  nextTick(() => {
+    formRef.value?.clearValidate();
+  });
 }
 // 打开添加对话框
 const addStudentButton = () => {
@@ -333,8 +336,11 @@ const handleEdit = async (row: StudentListItem) => {
     await fetchClassList(row.majorId)
     form.classId = row.classId
   }
+  
   dialogFormVisible.value = true
-
+ nextTick(() => {
+    formRef.value?.clearValidate();
+  });
 }
 // 详情
 const handleCheck = async (row: StudentListItem) => {
@@ -352,9 +358,18 @@ const handleCheck = async (row: StudentListItem) => {
   }
 }
 // 删除
-const handleDelete = async (row) => {
+const handleDelete = async (row: StudentListItem) => {
   try {
-    const res = await deleteStudent(row.id)
+     await ElMessageBox.confirm(
+      `确定要删除学生 ${row.name} 吗？`,
+      '删除确认',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+    );
+    const res = await deleteStudent(row.id!)
     if (res.success) {
       await fetchStudentList()
       ElMessage.success('删除成功')

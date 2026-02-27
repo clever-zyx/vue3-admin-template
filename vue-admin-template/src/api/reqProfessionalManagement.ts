@@ -18,5 +18,6 @@ export interface MajorsListItem {
   updatedAt?: string; 
 }
 // 获取专业列表
-export const getMajorsList = (params: MajorsListRequest) => 
-  server.get('/majors', { params }) as unknown as Promise<PaginatedResponse<MajorsListItem>>
+export async function getMajorsList(params: MajorsListRequest) {
+  return server.get<PaginatedResponse<MajorsListItem>>('/majors', { params });
+}
