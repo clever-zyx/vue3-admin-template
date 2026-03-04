@@ -3,7 +3,7 @@
   <el-card shadow="always" style="margin-bottom: 20px;">
     <el-form :model="form" label-width="80px" :inline="true" class="form" @submit.prevent="handleSearch">
       <el-form-item label="用户名:" prop="name">
-        <el-input v-model="form.name" placeholder="请输入用户名" clearable @keyup.enter.prevent="handleSearch"></el-input>
+        <el-input v-model="form.name" placeholder="请输入用户名" clearable ></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" size="default" :loading="loading" @click="handleSearch"
@@ -213,7 +213,7 @@ const handleSearch = () => {
   if (currentPage.value === 1) {
     fetchUserList()
   } else {
-    // 否则改变页码，watch 会自动触发
+    // 否则改变页码
     currentPage.value = 1
   }
 }
@@ -225,7 +225,7 @@ const handleReset = () => {
   if (currentPage.value === 1) {
     fetchUserList()
   } else {
-    // 否则改变页码，watch 会自动触发
+    // 否则改变页码
     currentPage.value = 1
   }
 }

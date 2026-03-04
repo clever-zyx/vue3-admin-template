@@ -77,26 +77,25 @@ export interface StudentInfo {
   updatedAt?: string;
 }
 // 获取学生列表
-export async function getStudentList(params: StudentListRequest) {
-  return server.get<PaginatedResponse<StudentListItem>>('/students', { params });
-}
+export  const getStudentList=(params: StudentListRequest) =>
+   server.get<PaginatedResponse<StudentListItem>>('/students', { params });
+
 
 // 添加学生
-export async function addStudent(data: AddStudentRequest) {
-  return server.post<ApiResponse<StudentListItem>>('/students', data);
-}
+export const addStudent=(data: AddStudentRequest) =>
+  server.post<ApiResponse<StudentListItem>>('/students', data);
+
 
 // 更新学生信息
-export async function updateStudent(id: string, data: AddStudentRequest) {
-  return server.put<ApiResponse<StudentListItem>>(`/students/${id}`, data);
-}
+export const updateStudent=(id: string, data: AddStudentRequest) =>
+   server.put<ApiResponse<StudentListItem>>(`/students/${id}`, data);
+
 
 // 获取学生信息
-export async function getStudentInfo(id: string) {
-  return server.get<ApiResponse<StudentInfo>>(`/students/${id}`);
-}
+export const getStudentInfo=(id: string) =>
+ server.get<ApiResponse<StudentInfo>>(`/students/${id}`);
+
 
 // 删除学生
-export async function deleteStudent(id: string) {
-  return server.delete<ApiResponse<StudentListItem>>(`/students/${id}`);
-}
+export const deleteStudent=(id: string) =>
+   server.delete<ApiResponse<StudentListItem>>(`/students/${id}`);

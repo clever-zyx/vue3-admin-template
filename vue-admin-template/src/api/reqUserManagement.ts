@@ -22,9 +22,9 @@ export interface UserListRequest {
   status?: string;
 }
 // 获取用户列表
-export async function getUserList(params: UserListRequest) {
-  return server.get<PaginatedResponse<UserListItem>>('/users', { params });
-}
+export const getUserList=(params: UserListRequest)=>
+ server.get<PaginatedResponse<UserListItem>>('/users', { params });
+
 export interface updateUserRequest{
   username: string;
   email: string;
@@ -35,14 +35,14 @@ export interface updateUserRequest{
   isActive: boolean;
 }
 // 添加用户
-export async function addUser(data: updateUserRequest) {
-  return server.post<ApiResponse<UserListItem>>('/users', data);
-}
+export const addUser=(data: updateUserRequest)=>
+ server.post<ApiResponse<UserListItem>>('/users', data);
+
 //修改用户信息
-export async function updateUser(id: string, data: updateUserRequest) {
-  return server.put<ApiResponse<UserListItem>>(`/users/${id}`, data);
-}
+export const updateUser=(id: string, data: updateUserRequest)=> 
+  server.put<ApiResponse<UserListItem>>(`/users/${id}`, data);
+
+
 // 用户详情信息
-export async function getUserInfo(id: string) {
-  return server.get<ApiResponse<UserListItem>>(`/users/${id}`);
-}
+export const getUserInfo = (id: string) => 
+  server.get<ApiResponse<UserListItem>>(`/users/${id}`);
