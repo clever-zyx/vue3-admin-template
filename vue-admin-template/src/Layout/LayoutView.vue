@@ -33,7 +33,7 @@
             <!-- 全屏按钮 -->
             <el-button size="default" :icon="FullScreen" :circle="true" @click="toggleFullScreen"></el-button>
             <!-- 设置按钮 -->
-            <el-button size="default" :icon="Setting" :circle="true"></el-button>
+            <el-button size="default" :icon="Setting" :circle="true" @click="showSettings = true"></el-button>
             <!-- 用户按钮 -->
             <div class="headPortrait">
               <img :src="userInfo?.avatar || '/favicon.ico'" alt="用户头像">
@@ -66,12 +66,16 @@
         <el-main v-if="stateRefresh"><router-view></router-view></el-main>
       </el-container>
     </el-container>
+
+    <!-- 设置抽屉 -->
+    <SettingsDrawer v-model:visible="showSettings" />
   </div>
 </template>
 
 <script setup lang="ts">
 // import Aside from "@/components/AsideView.vue";
 import AsideViewRecursion from "@/components/AsideViewRecursion.vue";
+import SettingsDrawer from "@/components/SettingsDrawer.vue";
 import { menuList } from "@/router/routes";
 import { ref, computed, nextTick } from "vue";
 import { useRoute } from "vue-router";
@@ -94,6 +98,7 @@ import { ElMessage } from "element-plus";
 const isCollapse = ref(false);
 const route = useRoute();
 const stateRefresh = ref(true)
+const showSettings = ref(false)
 
 const userInfo = useUserStore().userInfo
 

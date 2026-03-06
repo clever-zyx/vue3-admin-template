@@ -44,16 +44,8 @@
   </el-card>
   <!-- 抽屉 -->
   <el-drawer title="分配权限" v-model="drawer" direction="rtl" size="30%" :before-close="handleClose">
-    <el-tree
-      ref="treeRef"
-      style="max-width: 600px"
-      :data="MenuList"
-      :props="defaultProps"
-      :default-expand-all="true"
-      :default-checked-keys="menuIds"
-      show-checkbox
-      node-key="id"
-    />
+    <el-tree ref="treeRef" style="max-width: 600px" :data="MenuList" :props="defaultProps" :default-expand-all="true"
+      :default-checked-keys="menuIds" show-checkbox node-key="id" />
 
     <template #footer>
       <div style="flex: auto">
@@ -146,6 +138,8 @@ const getMenuList = async () => {
     const res = await reqMenuList()
     if (res.success && res.data) {
       MenuList.value = res.data
+    } else {
+      ElMessage.error(res.message || '获取菜单列表失败')
     }
   } catch (err) {
     ElMessage.error((err as Error).message)
@@ -158,6 +152,8 @@ const getRoleInfoData = async (id: string) => {
     const res = await fetchRoleInfo(id)
     if (res.success && res.data) {
       menuIds.value = res.data.menuIds
+    }else {
+      ElMessage.error(res.message || '获取角色信息失败')
     }
   } catch (err) {
     ElMessage.error((err as Error).message)
