@@ -54,9 +54,10 @@ const goLogin = async () => {
   loading.value = true
   try {
     const res = await useLogin(useForm)
-    // console.log(res);
+    console.log(res);
     localStorage.setItem('token', res.data.token)
     localStorage.setItem('userInfo', JSON.stringify(res.data.user))
+    localStorage.setItem('userRoutes',JSON.stringify(res.data.user.routes) )
     useUserStore().setToken(res.data.token)
     useUserStore().setUserInfo(res.data.user)
     ElNotification({ message: '登录成功', type: 'success' })

@@ -12,6 +12,7 @@ export interface UserInfo {
   username?: string;
   email?: string;
   role?: string;
+  routes:[]
   [key: string]: unknown; // 允许其他字段
 }
 // 登录响应数据类型

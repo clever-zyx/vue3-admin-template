@@ -76,7 +76,7 @@
 // import Aside from "@/components/AsideView.vue";
 import AsideViewRecursion from "@/components/AsideViewRecursion.vue";
 import SettingsDrawer from "@/components/SettingsDrawer.vue";
-import { menuList } from "@/router/routes";
+import { menuList } from "@/router/baseRoutes";
 import { ref, computed, nextTick } from "vue";
 import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/user/useUser";
