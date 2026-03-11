@@ -54,19 +54,24 @@ const goLogin = async () => {
   loading.value = true
   try {
     const res = await useLogin(useForm)
-    console.log(res);
-    localStorage.setItem('token', res.data.token)
-    localStorage.setItem('userInfo', JSON.stringify(res.data.user))
-    localStorage.setItem('userRoutes',JSON.stringify(res.data.user.routes) )
+    console.log(res)
+
+    // 保存 token 和用户信息
     useUserStore().setToken(res.data.token)
     useUserStore().setUserInfo(res.data.user)
+
+    // 保存后端返回的路由数据
+    useUserStore().setUserRoutes(res.data.routes)
+
+    // 加载动态路由
+    useUserStore().loadDynamicRoutes()
+
     ElNotification({ message: '登录成功', type: 'success' })
 
     // 登录成功后，跳转到用户原本想访问的页面
     const redirect = route.query.redirect as string
     router.push(redirect || '/')
-      loading.value = false
-
+    loading.value = false
   } catch (error: any) {
     loading.value = false
     // 检查是否有 response 数据

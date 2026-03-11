@@ -149,10 +149,10 @@
 //   ...(routes[0]?.children || []),
 //   ...routes.filter(route => route.meta?.showInMenu)
 // ]
-// src/router/staticRoutes.ts
 import type { RouteRecordRaw } from 'vue-router'
 
-export const staticRoutes: RouteRecordRaw[] = [
+// 静态路由：不需要权限的页面
+export const baseRoutes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'login',
@@ -170,20 +170,11 @@ export const staticRoutes: RouteRecordRaw[] = [
       title: '页面不存在',
       requiresAuth: false
     }
-  },
-  // 如果数据大屏所有人都能访问，也放这里
-  {
-    path: '/DataDashboard',
-    name: 'DataDashboard',
-    component: () => import('@/view/DataDashboard/DataDashboard.vue'),
-    meta: {
-      title: '数据大屏',
-      requiresAuth: true, // 需要登录但不需要特殊权限
-      showInMenu: false
-    }
-  },
-  {
-    path: '/:pathMatch(.*)*',
-    redirect: '/404'
   }
 ]
+
+// 404 通配路由，需要在所有路由最后添加
+export const notFoundRoute: RouteRecordRaw = {
+  path: '/:pathMatch(.*)*',
+  redirect: '/404'
+}

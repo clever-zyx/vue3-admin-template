@@ -76,7 +76,6 @@
 // import Aside from "@/components/AsideView.vue";
 import AsideViewRecursion from "@/components/AsideViewRecursion.vue";
 import SettingsDrawer from "@/components/SettingsDrawer.vue";
-import { menuList } from "@/router/baseRoutes";
 import { ref, computed, nextTick } from "vue";
 import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/user/useUser";
@@ -88,19 +87,20 @@ import {
   Setting,
   FullScreen,
   Refresh,
-
   ArrowDown
 } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
-
-
 
 const isCollapse = ref(false);
 const route = useRoute();
 const stateRefresh = ref(true)
 const showSettings = ref(false)
 
-const userInfo = useUserStore().userInfo
+const userStore = useUserStore()
+const userInfo = userStore.userInfo
+
+// 从 store 获取动态菜单数据
+const menuList = computed(() => userStore.userMenus)
 
 // 计算面包屑列表
 const breadcrumbList = computed(() => {
